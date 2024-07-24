@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 
 #include "vec3.hpp"
 
@@ -83,3 +84,7 @@ double norm_squared(const vec3& u) noexcept {
 }
 
 vec3 unit_vector(const vec3& u) { return u/norm(u); }
+
+inline std::ostream& operator<<(std::ostream& out, const vec3& u) {
+    return out << u.x() << ' ' << u.y() << ' ' << u.z();
+}
