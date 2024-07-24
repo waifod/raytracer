@@ -17,12 +17,13 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 # Dependencies - None so far
 
 # Library
-file(GLOB_RECURSE SOURCES "include/*.hpp" "src/*.cpp")
-add_library(raytracerlib SHARED ${SOURCES})
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+add_library(RayTracer SHARED ${SOURCES})
+target_include_directories(RayTracer PUBLIC include)
 
 # Executable (CLI application)
-add_executable(raytracer src/main.cpp)
-target_link_libraries(raytracer PRIVATE raytracerlib)
+add_executable(raytracer "main.cpp")
+target_link_libraries(raytracer PRIVATE RayTracer)
 
 # Testing
 add_subdirectory(tst)
