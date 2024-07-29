@@ -19,7 +19,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 # Library
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_library(RayTracer SHARED ${SOURCES})
-target_include_directories(RayTracer PUBLIC include)
 
 # Executable (CLI application)
 add_executable(raytracer "main.cpp")
