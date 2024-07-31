@@ -23,15 +23,15 @@ constexpr point CAMERA_CENTER {point(0,0,0)};
 
 double hit_sphere(const point& center, double radius, const ray& r) {
     auto oc_dir {center - r.origin()};
-    auto a {r.direction().norm()};
+    auto a {r.direction().norm_squared()};
     auto h {dot(r.direction(), oc_dir)};
-    auto c {oc_dir.norm() - radius*radius};
+    auto c {oc_dir.norm_squared() - radius*radius};
     auto discriminant {h*h - a*c};
 
     if (discriminant < 0) {
         return -1.0;
     }
-    return (-h-std::sqrt(discriminant)) / a;
+    return (h-std::sqrt(discriminant)) / a;
 }
 
 color ray_color(const ray& r) {
