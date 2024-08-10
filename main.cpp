@@ -24,7 +24,7 @@ constexpr double VIEWPORT_WIDTH{VIEWPORT_HEIGHT *
                                 (double(IMAGE_WIDTH) / IMAGE_HEIGHT)};
 constexpr point CAMERA_CENTER{point(0, 0, 0)};
 
-// Calculate the vectors across the horizontal and down the vertical 
+// Calculate the vectors across the horizontal and down the vertical
 // viewport edges.
 constexpr auto viewport_u{vec3(VIEWPORT_WIDTH, 0, 0)};
 constexpr auto viewport_v{vec3(0, -VIEWPORT_HEIGHT, 0)};
@@ -34,18 +34,17 @@ constexpr auto pixel_delta_u{viewport_u / IMAGE_WIDTH};
 constexpr auto pixel_delta_v{viewport_v / IMAGE_HEIGHT};
 
 // Calculate the location of the upper left pixel.
-constexpr auto viewport_upper_left{CAMERA_CENTER -
-                                          vec3(0, 0, FOCAL_LENGTH) -
-                                          viewport_u / 2 - viewport_v / 2};
+constexpr auto viewport_upper_left{CAMERA_CENTER - vec3(0, 0, FOCAL_LENGTH) -
+                                   viewport_u / 2 - viewport_v / 2};
 constexpr auto pixel00_loc{viewport_upper_left +
                            (pixel_delta_u + pixel_delta_v) / 2};
 
 color ray_color(const ray& r, const hittable& world) {
   hit_record rec;
   if (world.hit(r, 0, std::numeric_limits<double>::infinity(), rec)) {
-    return (rec.normal + color(1,1,1)) / 2;
+    return (rec.normal + color(1, 1, 1)) / 2;
   }
-  
+
   auto unit_direction{r.direction().unit_vector()};
   auto a{(unit_direction.y() + 1.0) / 2};
   return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
@@ -54,8 +53,8 @@ color ray_color(const ray& r, const hittable& world) {
 int main() {
   // World
   hittable_list world;
-  world.add(std::make_shared<sphere>(point(0,0,-1), 0.5));
-  world.add(std::make_shared<sphere>(point(0,-100.5,-1), 100));
+  world.add(std::make_shared<sphere>(point(0, 0, -1), 0.5));
+  world.add(std::make_shared<sphere>(point(0, -100.5, -1), 100));
 
   // Render
 
@@ -68,7 +67,7 @@ int main() {
       auto pixel_center{pixel00_loc + i * pixel_delta_u + j * pixel_delta_v};
       auto ray_direction{pixel_center - CAMERA_CENTER};
       auto r{ray(CAMERA_CENTER, ray_direction)};
-      
+
       auto pixel_color{ray_color(r, world)};
       write_color(std::cout, pixel_color);
     }
