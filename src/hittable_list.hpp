@@ -9,13 +9,13 @@
 class hittable_list : public hittable {
  public:
   [[nodiscard]] explicit hittable_list() noexcept = default;
-  [[nodiscard]] inline explicit hittable_list(
+  [[nodiscard]] explicit hittable_list(
       std::shared_ptr<hittable> obj) noexcept {
     add(obj);
   };
 
-  inline void clear() noexcept { objects.clear(); };
-  inline void add(std::shared_ptr<hittable> obj) noexcept {
+  void clear() noexcept { objects.clear(); };
+  void add(std::shared_ptr<hittable> obj) noexcept {
     objects.emplace_back(obj);
   };
 
