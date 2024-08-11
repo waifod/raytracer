@@ -1,6 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+#include "interval.hpp"
 #include "ray.hpp"
 
 struct hit_record {
@@ -21,7 +22,7 @@ class hittable {
  public:
   virtual ~hittable() = default;
 
-  virtual bool hit(const ray& r, double ray_tmin, double ray_tmax,
+  virtual bool hit(const ray& r, interval ray_t,
                    hit_record& rec) const = 0;
 };
 

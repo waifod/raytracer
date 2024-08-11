@@ -1,13 +1,14 @@
 #include "sphere.hpp"
 
 #include "hittable.hpp"
+#include "interval.hpp"
 #include "ray.hpp"
 #include "vec3.hpp"
 
 sphere::sphere(const point& center, double radius) noexcept
     : center{center}, radius{(std::fmax(0, radius))} {}
 
-bool sphere::hit(const ray& r, double ray_tmin, double ray_tmax,
+bool sphere::hit(const ray& r, interval ray_t,
                  hit_record& rec) const noexcept {
   auto oc_dir{center - r.origin()};
   auto a{r.direction().norm_squared()};
@@ -21,9 +22,9 @@ bool sphere::hit(const ray& r, double ray_tmin, double ray_tmax,
 
   auto sqrtd{std::sqrt(discriminant)};
   auto root{(h - sqrtd) / a};
-  if (root <= ray_tmin || ray_tmax <= root) {
+  if (!ray_t.surrounds(root)) {
     root = (h + sqrtd) / a;
-    if (root <= ray_tmin || ray_tmax <= root) {
+    if (!ray_t.surrounds(root)) {
       return false;
     }
   }

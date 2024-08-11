@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "hittable.hpp"
+#include "interval.hpp"
 
 class hittable_list : public hittable {
  public:
@@ -18,7 +19,7 @@ class hittable_list : public hittable {
     objects.emplace_back(obj);
   };
 
-  [[nodiscard]] bool hit(const ray& r, double ray_tmin, double ray_tmax,
+  [[nodiscard]] bool hit(const ray& r, interval ray_t,
                          hit_record& rec) const override;
 
  private:

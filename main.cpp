@@ -3,6 +3,7 @@
 #include "src/color.hpp"
 #include "src/hittable.hpp"
 #include "src/hittable_list.hpp"
+#include "src/interval.hpp"
 #include "src/ray.hpp"
 #include "src/sphere.hpp"
 #include "src/vec3.hpp"
@@ -41,7 +42,7 @@ constexpr auto pixel00_loc{viewport_upper_left +
 
 color ray_color(const ray& r, const hittable& world) {
   hit_record rec;
-  if (world.hit(r, 0, std::numeric_limits<double>::infinity(), rec)) {
+  if (world.hit(r, interval(0, std::numeric_limits<double>::infinity()), rec)) {
     return (rec.normal + color(1, 1, 1)) / 2;
   }
 
