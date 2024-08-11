@@ -2,9 +2,9 @@
 
 #include "color.hpp"
 #include "hittable.hpp"
-#include "vec3.hpp"
-#include "hittable.hpp"
 #include "ray.hpp"
+#include "utils.hpp"
+#include "vec3.hpp"
 
 void camera::render(const hittable& world) {
   initialize();
@@ -54,7 +54,7 @@ void camera::initialize() {
 
 color camera::ray_color(const ray& r, const hittable& world) const {
   hit_record rec;
-  if (world.hit(r, interval(0, std::numeric_limits<double>::infinity()), rec)) {
+  if (world.hit(r, interval(0, infty), rec)) {
     return (rec.normal + color(1, 1, 1)) / 2;
   }
 

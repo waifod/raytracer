@@ -1,8 +1,7 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
-#include <numeric>
-#include <numbers>
+#include "utils.hpp"
 
 class interval {
     public:
@@ -10,8 +9,8 @@ class interval {
         double end;
 
         [[nodiscard]] constexpr explicit interval() noexcept
-        : start(std::numeric_limits<double>::infinity())
-        , end(-std::numeric_limits<double>::infinity()) {};
+        : start(infty)
+        , end(-infty) {};
 
         [[nodiscard]] constexpr explicit interval(double start, double end) noexcept
         : start{start}
@@ -28,7 +27,7 @@ class interval {
         } 
 
         [[nodiscard]] static const interval& universe() noexcept { 
-            static const auto universe = interval(-std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity());
+            static const auto universe = interval(-infty, infty);
             return universe;
         } 
 };
