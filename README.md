@@ -1,3 +1,3 @@
-# raytracer
+# rtnya
 
-Ray tracer implementation based on [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html).
+A simple ray tracer based on [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) nya~

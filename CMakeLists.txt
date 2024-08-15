@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
-project(raytracer
+project(rtnya
   VERSION 1.0
-  DESCRIPTION "raytracer - A simple ray tracing implementation"
+  DESCRIPTION "rtnya - A simple ray tracer nya~"
   LANGUAGES CXX
 )
 
@@ -17,12 +17,12 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 # Dependencies - None so far
 
 # Library
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.hpp")
-add_library(RayTracer SHARED ${SOURCES})
+file(GLOB_RECURSE SOURCES "src/*")
+add_library(RTNyaLib SHARED ${SOURCES})
 
 # Executable (CLI application)
-add_executable(raytracer "main.cpp")
-target_link_libraries(raytracer PRIVATE RayTracer)
+add_executable(rtnya "main.cpp")
+target_link_libraries(rtnya PRIVATE RTNyaLib)
 
 # Testing
 add_subdirectory(tst)

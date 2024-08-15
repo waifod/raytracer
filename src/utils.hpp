@@ -5,8 +5,8 @@
 #include <numbers>
 #include <random>
 
-constexpr double pi = std::numbers::pi;
 constexpr double infty = std::numeric_limits<double>::infinity();
+constexpr double pi = std::numbers::pi;
 
 constexpr double degrees_to_radians(double degrees) {
   return degrees * pi;

@@ -21,6 +21,12 @@ class interval {
         [[nodiscard]] constexpr bool contains(double x) const noexcept { return start <= x && x <= end; };
         [[nodiscard]] constexpr bool surrounds(double x) const noexcept { return start < x && x < end; };
 
+        [[nodiscard]] constexpr double clamp(double x) const noexcept {
+            if (x < start) return start;
+            if (x > end) return end;
+            return x;
+        }
+
         [[nodiscard]] static const interval& empty() noexcept { 
             static const auto empty = interval();
             return empty;

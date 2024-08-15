@@ -15,12 +15,12 @@ void camera::render(const hittable& world) {
     std::clog << "\rScanlines remaining: " << (image_height - j) << ' '
               << std::flush;
     for (int i = 0; i < image_width; i++) {
-      auto pixel_center{pixel00_loc + i * pixel_delta_u + j * pixel_delta_v};
-      auto ray_direction{pixel_center - center};
-      auto r{ray(center, ray_direction)};
-
-      auto pixel_color{ray_color(r, world)};
-      write_color(std::cout, pixel_color);
+      auto pixel_color {color(0,0,0)};
+      for (auto sample{0}; sample<samples_per_pixel; ++sample) {
+        auto r {get_ray(i, j)};
+        pixel_color += ray_color(r, world);
+      }
+      write_color(std::cout, pixel_samples_scale*pixel_color);
     }
   }
 
@@ -30,6 +30,8 @@ void camera::render(const hittable& world) {
 void camera::initialize() {
     image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
+
+    pixel_samples_scale = 1.0 / samples_per_pixel;
 
     center = point(0, 0, 0);
 
@@ -61,4 +63,19 @@ color camera::ray_color(const ray& r, const hittable& world) const {
   auto unit_direction{r.direction().unit_vector()};
   auto a{(unit_direction.y() + 1.0) / 2};
   return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
+}
+
+// Construct a camera ray originating from the origin and directed at
+// a randomly sampled point around the pixel location i, j.
+ray camera::get_ray(int i, int j) const noexcept {
+    auto offset {sample_square()};
+    auto pixel_sample {pixel00_loc + ((i + offset.x())*pixel_delta_u) + ((j + offset.y())*pixel_delta_v)};
+    auto ray_origin {center};
+    auto ray_direction {pixel_sample-ray_origin};
+    return ray(ray_origin, ray_direction);
+}
+
+// Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
+vec3 camera::sample_square() const noexcept {
+    return vec3(random_double() - 0.5, random_double() - 0.5, 0);
 }
