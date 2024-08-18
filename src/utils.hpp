@@ -24,4 +24,8 @@ inline double random_double(double min, double max) {
     return min + (max-min)*random_double();
 }
 
+inline double linear_to_gamma(double linear_component) {
+  return linear_component > 0 ? std::sqrt(linear_component) : 0.0;
+}
+
 #endif
