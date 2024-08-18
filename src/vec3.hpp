@@ -5,6 +5,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "utils.hpp"
+
 class vec3 {
  private:
   std::array<double, 3> m_c{0, 0, 0};
@@ -13,6 +15,11 @@ class vec3 {
   [[nodiscard]] constexpr explicit vec3() noexcept = default;
   [[nodiscard]] constexpr explicit vec3(double x, double y, double z) noexcept
       : m_c{x, y, z} {}
+
+  [[nodiscard]] static inline vec3 random() { return vec3{random_double(), random_double(), random_double()}; }
+  [[nodiscard]] static inline vec3 random(double min, double max) { return vec3{random_double(min, max), random_double(min, max), random_double(min, max)}; }
+  [[nodiscard]] static inline vec3 random_in_unit_sphere() { return vec3::random(-1, 1) / std::sqrt(3); }
+  [[nodiscard]] static inline vec3 random_unit_vector() { return vec3::random().unit_vector(); }
 
   [[nodiscard]] constexpr double x() const noexcept { return m_c[0]; }
   [[nodiscard]] constexpr double y() const noexcept { return m_c[1]; }
@@ -85,6 +92,11 @@ constexpr vec3 operator*(double t, const vec3& v) noexcept { return v * t; }
 [[nodiscard]] constexpr vec3 cross(const vec3& u, const vec3& v) noexcept {
   return vec3(u.y() * v.z() - u.z() * v.y(), u.z() * v.x() - u.x() * v.z(),
               u.x() * v.y() - u.y() * v.x());
+}
+
+[[nodiscard]] inline vec3 random_on_emisphere(const vec3& normal) {
+  auto unit = vec3::random_unit_vector();
+  return dot(unit, normal) > 0.0 ? unit : unit;
 }
 
 inline std::ostream& operator<<(std::ostream& out, const vec3& v) {

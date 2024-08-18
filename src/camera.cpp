@@ -18,7 +18,7 @@ void camera::render(const hittable& world) {
       auto pixel_color {color(0,0,0)};
       for (auto sample{0}; sample<samples_per_pixel; ++sample) {
         auto r {get_ray(i, j)};
-        pixel_color += ray_color(r, world);
+        pixel_color += ray_color(r, max_depth, world);
       }
       write_color(std::cout, pixel_samples_scale*pixel_color);
     }
@@ -54,10 +54,16 @@ void camera::initialize() {
     pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 }
 
-color camera::ray_color(const ray& r, const hittable& world) const {
+color camera::ray_color(const ray& r, int depth, const hittable& world) const {
+  // If we've exceeded the ray bounce limit, no more light is gathered.
+  if (depth == 0) {
+    return color(0,0,0);
+  }
+
   hit_record rec;
-  if (world.hit(r, interval(0, infty), rec)) {
-    return (rec.normal + color(1, 1, 1)) / 2;
+  if (world.hit(r, interval(0.001, infty), rec)) {
+    auto direction = random_on_emisphere(rec.normal);
+    return 0.5 * ray_color(ray(rec.p, direction), --depth, world);
   }
 
   auto unit_direction{r.direction().unit_vector()};
