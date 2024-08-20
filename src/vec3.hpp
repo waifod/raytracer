@@ -16,10 +16,19 @@ class vec3 {
   [[nodiscard]] constexpr explicit vec3(double x, double y, double z) noexcept
       : m_c{x, y, z} {}
 
-  [[nodiscard]] static inline vec3 random() { return vec3{random_double(), random_double(), random_double()}; }
-  [[nodiscard]] static inline vec3 random(double min, double max) { return vec3{random_double(min, max), random_double(min, max), random_double(min, max)}; }
-  [[nodiscard]] static inline vec3 random_in_unit_sphere() { return vec3::random(-1, 1) / std::sqrt(3); }
-  [[nodiscard]] static inline vec3 random_unit_vector() { return vec3::random().unit_vector(); }
+  [[nodiscard]] static inline vec3 random() {
+    return vec3{random_double(), random_double(), random_double()};
+  }
+  [[nodiscard]] static inline vec3 random(double min, double max) {
+    return vec3{random_double(min, max), random_double(min, max),
+                random_double(min, max)};
+  }
+  [[nodiscard]] static inline vec3 random_in_unit_sphere() {
+    return vec3::random(-1, 1) / std::sqrt(3);
+  }
+  [[nodiscard]] static inline vec3 random_unit_vector() {
+    return vec3::random().unit_vector();
+  }
 
   [[nodiscard]] constexpr double x() const noexcept { return m_c[0]; }
   [[nodiscard]] constexpr double y() const noexcept { return m_c[1]; }

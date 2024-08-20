@@ -8,8 +8,7 @@
 sphere::sphere(const point& center, double radius) noexcept
     : center{center}, radius{(std::fmax(0, radius))} {}
 
-bool sphere::hit(const ray& r, interval ray_t,
-                 hit_record& rec) const noexcept {
+bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const noexcept {
   auto oc_dir{center - r.origin()};
   auto a{r.direction().norm_squared()};
   auto h{dot(r.direction(), oc_dir)};

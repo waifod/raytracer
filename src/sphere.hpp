@@ -9,7 +9,7 @@ class sphere : public hittable {
  public:
   [[nodiscard]] explicit sphere(const point& center, double radius) noexcept;
   [[nodiscard]] bool hit(const ray& r, interval ray_t,
-           hit_record& rec) const noexcept override;
+                         hit_record& rec) const noexcept override;
 
  private:
   point center;

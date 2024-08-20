@@ -8,9 +8,7 @@
 constexpr double infty = std::numeric_limits<double>::infinity();
 constexpr double pi = std::numbers::pi;
 
-constexpr double degrees_to_radians(double degrees) {
-  return degrees * pi;
-}
+constexpr double degrees_to_radians(double degrees) { return degrees * pi; }
 
 // Returns a random real in [0,1).
 inline double random_double() {
@@ -21,7 +19,7 @@ inline double random_double() {
 
 // Returns a random real in [min,max).
 inline double random_double(double min, double max) {
-    return min + (max-min)*random_double();
+  return min + (max - min) * random_double();
 }
 
 inline double linear_to_gamma(double linear_component) {
