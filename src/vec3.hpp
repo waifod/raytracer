@@ -116,6 +116,15 @@ constexpr vec3 operator*(double t, const vec3& v) noexcept { return v * t; }
   return v - 2 * dot(v, n) * n;
 }
 
+[[nodiscard]] inline vec3 refract(const vec3& uv, const vec3& n,
+                                  double etai_over_etat) noexcept {
+  auto cos_theta = std::fmin(dot(-uv, n), 1.0);
+  auto r_out_perp = etai_over_etat * (uv + cos_theta * n);
+  auto r_out_parallel =
+      -std::sqrt(std::fabs(1.0 - r_out_perp.norm_squared())) * n;
+  return r_out_perp + r_out_parallel;
+}
+
 inline std::ostream& operator<<(std::ostream& out, const vec3& v) {
   return out << v.x() << ' ' << v.y() << ' ' << v.z();
 }
