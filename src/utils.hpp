@@ -7,6 +7,7 @@
 
 constexpr double infty = std::numeric_limits<double>::infinity();
 constexpr double pi = std::numbers::pi;
+constexpr double eps = 1e-8;
 
 constexpr double degrees_to_radians(double degrees) { return degrees * pi; }
 

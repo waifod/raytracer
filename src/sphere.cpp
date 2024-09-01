@@ -1,12 +1,16 @@
 #include "sphere.hpp"
 
+#include <memory>
+
 #include "hittable.hpp"
 #include "interval.hpp"
+#include "material.hpp"
 #include "ray.hpp"
 #include "vec3.hpp"
 
-sphere::sphere(const point& center, double radius) noexcept
-    : center{center}, radius{(std::fmax(0, radius))} {}
+sphere::sphere(const point& center, double radius,
+               std::shared_ptr<material> mat) noexcept
+    : center{center}, radius{(std::fmax(0, radius))}, mat{mat} {}
 
 bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const noexcept {
   auto oc_dir{center - r.origin()};
@@ -32,6 +36,7 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const noexcept {
   rec.p = r.at(rec.t);
   auto outward_normal{(rec.p - center) / radius};
   rec.set_face_normal(r, outward_normal);
+  rec.mat = mat;
 
   return true;
 }

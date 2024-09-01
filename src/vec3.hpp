@@ -90,6 +90,10 @@ class vec3 {
   }
 
   [[nodiscard]] constexpr vec3 unit_vector() const { return *this / norm(); }
+
+  [[nodiscard]] bool near_zero() const noexcept {
+    return std::fabs(x()) < eps && std::fabs(y()) < eps && std::fabs(z()) < eps;
+  }
 };
 
 constexpr vec3 operator*(double t, const vec3& v) noexcept { return v * t; }
@@ -106,6 +110,10 @@ constexpr vec3 operator*(double t, const vec3& v) noexcept { return v * t; }
 [[nodiscard]] inline vec3 random_on_emisphere(const vec3& normal) {
   auto unit = vec3::random_unit_vector();
   return dot(unit, normal) > 0.0 ? unit : unit;
+}
+
+[[nodiscard]] inline vec3 reflect(const vec3& v, const vec3& n) {
+  return v - 2 * dot(v, n) * n;
 }
 
 inline std::ostream& operator<<(std::ostream& out, const vec3& v) {

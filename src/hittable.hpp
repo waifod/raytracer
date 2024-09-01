@@ -1,14 +1,19 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+#include <memory>
+
 #include "interval.hpp"
 #include "ray.hpp"
 
+class material;
+
 struct hit_record {
+  bool front_face;
   point p;
   vec3 normal;
   double t;
-  bool front_face;
+  std::shared_ptr<material> mat;
 
   // Set the hit record normal vector.
   // NOTE: the parameter output_normal is assumed to be normalized.

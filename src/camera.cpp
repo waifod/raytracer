@@ -2,6 +2,7 @@
 
 #include "color.hpp"
 #include "hittable.hpp"
+#include "material.hpp"
 #include "ray.hpp"
 #include "utils.hpp"
 #include "vec3.hpp"
@@ -63,8 +64,11 @@ color camera::ray_color(const ray& r, int depth, const hittable& world) const {
 
   hit_record rec;
   if (world.hit(r, interval(0.001, infty), rec)) {
-    auto direction = rec.normal + vec3::random_unit_vector();
-    return 0.5 * ray_color(ray(rec.p, direction), --depth, world);
+    ray scattered;
+    color attenuation;
+    if (rec.mat->scatter(r, rec, attenuation, scattered))
+      return attenuation * ray_color(scattered, --depth, world);
+    return color{0, 0, 0};
   }
 
   auto unit_direction{r.direction().unit_vector()};
