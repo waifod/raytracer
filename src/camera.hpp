@@ -12,6 +12,10 @@ class camera {
   int image_width = 100;       // Rendered image width in pixel count
   int samples_per_pixel = 10;  // Count of random samples for each pixel
   int max_depth = 10;          // Maximum number of ray bounces into scene
+  double vfov = 90;            // Vertical view angle (field of view)
+  point lookfrom{0, 0, 0};     // Point camera is looking from
+  point lookat{0, 0, -1};      // Point camera is looking at
+  vec3 vup{0, 1, 0};           // Camera-relative "up" direction
 
   [[nodiscard]] explicit camera() = default;
   void render(const hittable& world);
@@ -25,6 +29,7 @@ class camera {
   point pixel00_loc;           // Location of pixel 0, 0
   vec3 pixel_delta_u;          // Offset to pixel to the right
   vec3 pixel_delta_v;          // Offset to pixel below
+  vec3 u, v, w;                // Camera frame basis vector
 
   void initialize();
   color ray_color(const ray& r, int depth, const hittable& world) const;

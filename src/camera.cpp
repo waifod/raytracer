@@ -34,17 +34,25 @@ void camera::initialize() {
 
   pixel_samples_scale = 1.0 / samples_per_pixel;
 
-  center = point(0, 0, 0);
+  center = lookfrom;
 
   // Determine viewport dimensions.
-  auto focal_length = 1.0;
-  auto viewport_height = 2.0;
+  auto focal_length = (lookfrom - lookat).norm();
+  auto theta = degrees_to_radians(vfov);
+  auto h = std::tan(theta / 2);
+  auto viewport_height = 2 * h * focal_length;
   auto viewport_width = viewport_height * (double(image_width) / image_height);
+
+  // Calculate the u,v,w unit basis vectors for the camera coordinate frame.
+  w = (lookfrom - lookat).unit_vector();
+  u = cross(vup, w).unit_vector();
+  v = cross(w, u);
 
   // Calculate the vectors across the horizontal and down the vertical viewport
   // edges.
-  auto viewport_u = vec3(viewport_width, 0, 0);
-  auto viewport_v = vec3(0, -viewport_height, 0);
+  auto viewport_u =
+      viewport_width * u;  // Vector across viewport horizontal edge
+  auto viewport_v = -viewport_height * v;  // Vector down viewport vertical edge
 
   // Calculate the horizontal and vertical delta vectors from pixel to pixel.
   pixel_delta_u = viewport_u / image_width;
@@ -52,7 +60,7 @@ void camera::initialize() {
 
   // Calculate the location of the upper left pixel.
   auto viewport_upper_left =
-      center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
+      center - focal_length * w - viewport_u / 2 - viewport_v / 2;
   pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 }
 
