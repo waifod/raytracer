@@ -1,5 +1,7 @@
 #include "camera.hpp"
 
+#include <ios>
+
 #include "color.hpp"
 #include "hittable.hpp"
 #include "material.hpp"
@@ -9,6 +11,9 @@
 
 void camera::render(const hittable& world) {
   initialize();
+
+  // Needed to avoid syncing cout with the stdout from the C stdio library.
+  std::ios_base::sync_with_stdio(false);
 
   std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
