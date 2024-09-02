@@ -27,7 +27,17 @@ class vec3 {
     return vec3::random(-1, 1) / std::sqrt(3);
   }
   [[nodiscard]] static inline vec3 random_unit_vector() {
-    return vec3::random().unit_vector();
+    while (true) {
+      auto p = vec3::random(-1, 1);
+      auto lensq = p.norm();
+      if (lensq <= 1) return p / sqrt(lensq);
+    }
+  }
+  [[nodiscard]] static inline vec3 random_in_unit_disk() {
+    while (true) {
+      vec3 p{random_double(-1, 1), random_double(-1, 1), 0};
+      if (p.norm_squared() < 1) return p;
+    }
   }
 
   [[nodiscard]] constexpr double x() const noexcept { return m_c[0]; }
