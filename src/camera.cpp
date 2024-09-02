@@ -18,8 +18,7 @@ void camera::render(const hittable& world) {
   std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
   for (int j = 0; j < image_height; j++) {
-    std::clog << "\rScanlines remaining: " << (image_height - j) << ' '
-              << std::flush;
+    std::clog << "\rScanlines remaining: " << image_height - j << std::flush;
     for (int i = 0; i < image_width; i++) {
       auto pixel_color{color(0, 0, 0)};
       for (auto sample{0}; sample < samples_per_pixel; ++sample) {
