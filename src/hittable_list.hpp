@@ -10,20 +10,20 @@
 class hittable_list : public hittable {
  public:
   [[nodiscard]] explicit hittable_list() noexcept = default;
-  [[nodiscard]] explicit hittable_list(std::shared_ptr<hittable> obj) noexcept {
-    add(obj);
+  [[nodiscard]] explicit hittable_list(std::unique_ptr<hittable> obj) noexcept {
+    add(std::move(obj));
   };
 
   void clear() noexcept { objects.clear(); };
-  void add(std::shared_ptr<hittable> obj) noexcept {
-    objects.emplace_back(obj);
+  void add(std::unique_ptr<hittable> obj) noexcept {
+    objects.emplace_back(std::move(obj));
   };
 
   [[nodiscard]] bool hit(const ray& r, interval ray_t,
-                         hit_record& rec) const override;
+                         hit_record& rec) const noexcept override;
 
  private:
-  std::vector<std::shared_ptr<hittable>> objects;
+  std::vector<std::unique_ptr<hittable>> objects;
 };
 
 #endif

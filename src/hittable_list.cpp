@@ -4,7 +4,8 @@
 #include "interval.hpp"
 #include "ray.hpp"
 
-bool hittable_list::hit(const ray& r, interval ray_t, hit_record& rec) const {
+bool hittable_list::hit(const ray& r, interval ray_t,
+                        hit_record& rec) const noexcept {
   hit_record temp_rec;
   auto hit_anything{false};
   auto closest_so_far{ray_t.end};
