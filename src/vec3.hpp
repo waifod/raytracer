@@ -29,7 +29,7 @@ class vec3 {
   [[nodiscard]] static inline vec3 random_unit_vector() {
     while (true) {
       auto p = vec3::random(-1, 1);
-      auto lensq = p.norm();
+      auto lensq = p.norm_squared();
       if (lensq <= 1) [[likely]]
         return p / sqrt(lensq);
     }
