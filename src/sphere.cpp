@@ -9,7 +9,7 @@
 #include "vec3.hpp"
 
 sphere::sphere(const point& center, double radius,
-               std::unique_ptr<material> mat) noexcept
+               std::shared_ptr<material> mat) noexcept
     : center{center}, radius{(std::fmax(0, radius))}, mat{std::move(mat)} {}
 
 bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const noexcept {

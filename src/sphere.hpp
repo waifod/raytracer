@@ -10,7 +10,7 @@
 class sphere : public hittable {
  public:
   [[nodiscard]] explicit sphere(const point& center, double radius,
-                                std::unique_ptr<material> mat) noexcept;
+                                std::shared_ptr<material> mat) noexcept;
   [[nodiscard]] bool hit(const ray& r, interval ray_t,
                          hit_record& rec) const noexcept override;
 
