@@ -30,13 +30,15 @@ class vec3 {
     while (true) {
       auto p = vec3::random(-1, 1);
       auto lensq = p.norm();
-      if (lensq <= 1) return p / sqrt(lensq);
+      if (lensq <= 1) [[likely]]
+        return p / sqrt(lensq);
     }
   }
   [[nodiscard]] static inline vec3 random_in_unit_disk() {
     while (true) {
       vec3 p{random_double(-1, 1), random_double(-1, 1), 0};
-      if (p.norm_squared() < 1) return p;
+      if (p.norm_squared() < 1) [[likely]]
+        return p;
     }
   }
 
