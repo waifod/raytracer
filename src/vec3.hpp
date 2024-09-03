@@ -23,14 +23,11 @@ class vec3 {
     return vec3{random_double(min, max), random_double(min, max),
                 random_double(min, max)};
   }
-  [[nodiscard]] static inline vec3 random_in_unit_sphere() {
-    return vec3::random(-1, 1) / std::sqrt(3);
-  }
   [[nodiscard]] static inline vec3 random_unit_vector() {
     while (true) {
       auto p = vec3::random(-1, 1);
       auto lensq = p.norm_squared();
-      if (lensq <= 1) [[likely]]
+      if (lensq > 1e-160 && lensq <= 1) [[likely]]
         return p / sqrt(lensq);
     }
   }
