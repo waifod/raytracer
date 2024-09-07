@@ -13,7 +13,7 @@ struct hit_record {
   point p;
   vec3 normal;
   double t;
-  std::shared_ptr<material> mat;
+  material* mat;
 
   // Set the hit record normal vector.
   // NOTE: the parameter output_normal is assumed to be normalized.
