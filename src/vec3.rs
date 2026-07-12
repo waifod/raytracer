@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub};
+use crate::rtweekend::{random_double, random_double_range};
 
-use rand::Rng;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Vec3 {
@@ -39,20 +39,18 @@ impl Vec3 {
     }
 
     pub fn random() -> Self {
-        let mut rng = rand::thread_rng();
         Self {
-            x: rng.gen::<f64>(),
-            y: rng.gen::<f64>(),
-            z: rng.gen::<f64>(),
+            x: random_double(),
+            y: random_double(),
+            z: random_double(),
         }
     }
 
     pub fn random_range(min: f64, max: f64) -> Self {
-        let mut rng = rand::thread_rng();
         Self {
-            x: rng.gen_range(min..max),
-            y: rng.gen_range(min..max),
-            z: rng.gen_range(min..max),
+            x: random_double_range(min, max),
+            y: random_double_range(min, max),
+            z: random_double_range(min, max),
         }
     }
 
@@ -79,9 +77,8 @@ impl Vec3 {
     }
 
     pub fn random_in_unit_disk() -> Self {
-        let mut rng = rand::thread_rng();
         loop {
-            let p = Vec3::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0), 0.0);
+            let p = Vec3::new(random_double_range(-1.0, 1.0), random_double_range(-1.0, 1.0), 0.0);
             if p.length_squared() < 1.0 {
                 return p;
             }

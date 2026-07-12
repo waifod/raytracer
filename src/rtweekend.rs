@@ -1,4 +1,4 @@
-use rand::Rng;
+use fastrand;
 
 pub const INFINITY: f64 = f64::INFINITY;
 pub const PI: f64 = std::f64::consts::PI;
@@ -8,9 +8,9 @@ pub fn degrees_to_radians(degrees: f64) -> f64 {
 }
 
 pub fn random_double() -> f64 {
-    rand::thread_rng().gen::<f64>()
+    fastrand::f64()
 }
 
 pub fn random_double_range(min: f64, max: f64) -> f64 {
-    rand::thread_rng().gen_range(min..max)
+    min + (max-min) * fastrand::f64()
 }

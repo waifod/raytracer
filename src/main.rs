@@ -23,20 +23,44 @@ use vec3::{Color, Point3, Vec3};
 #[command(about = "Ray Tracing in One Weekend")]
 struct Args {
     /// Image width in pixels
-    #[arg(short, long, default_value_t = 1200)]
-    width: u32,
+    #[arg(short, long)]
+    width: Option<u32>,
 
     /// Samples per pixel
-    #[arg(short, long, default_value_t = 500)]
-    spp: u32,
+    #[arg(short, long)]
+    spp: Option<u32>,
 
     /// Max ray bounce depth
-    #[arg(short, long, default_value_t = 50)]
+    #[arg(short, long)]
+    depth: Option<u32>,
+
+    /// Use benchmark parameters for unspecified options
+    #[arg(long)]
+    bench: bool,
+}
+
+struct RenderParams {
+    width: u32,
+    spp: u32,
     depth: u32,
 }
 
+impl RenderParams {
+    const DEFAULT: Self = Self { width: 1200, spp: 500, depth: 50 };
+    const BENCH: Self = Self { width: 400, spp: 50, depth: 10 };
+
+    fn from_args(args: Args) -> Self {
+        let base = if args.bench { Self::BENCH } else { Self::DEFAULT };
+        Self {
+            width: args.width.unwrap_or(base.width),
+            spp: args.spp.unwrap_or(base.spp),
+            depth: args.depth.unwrap_or(base.depth),
+        }
+    }
+}
+
 fn main() {
-    let args = Args::parse();
+    let params = RenderParams::from_args(Args::parse());
 
     let mut world = HittableList::new();
 
@@ -101,9 +125,9 @@ fn main() {
     let mut cam = Camera::new();
 
     cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = args.width;
-    cam.samples_per_pixel = args.spp;
-    cam.max_depth = args.depth;
+    cam.image_width = params.width;
+    cam.samples_per_pixel = params.spp;
+    cam.max_depth = params.depth;
 
     cam.vfov = 20.0;
     cam.lookfrom = Point3::new(13.0, 2.0, 3.0);
